@@ -1,0 +1,139 @@
+/* Global Styles & Reset */
+body {
+    font-family: Arial, sans-serif; /* نوع الخط: خط Arial أو أي خط sans-serif تاني */
+    margin: 0;                      /* نشيل أي مسافات خارجية افتراضية من Body */
+    padding: 0;                     /* نشيل أي مسافات داخلية افتراضية من Body */
+    background-color: #f4f7f6;      /* لون خلفية فاتح عشان التطبيق يبان عليه */
+    color: #333;                    /* لون الخط الأساسي */
+    line-height: 1.6;               /* مسافة بين السطور عشان القراءة تبقى مريحة */
+}
+
+.container {
+    max-width: 600px; /* أقصى عرض للكونتينر بتاعنا، عشان ميكبرش أوي على الشاشات الكبيرة */
+    margin: 20px auto; /* مسافة 20px من فوق وتحت، و "auto" عشان يسنتِر الكونتينر في نص الشاشة أفقيًا */
+    background-color: #ffffff; /* خلفية بيضا للكونتينر بتاع التطبيق */
+    padding: 30px; /* مسافة داخلية (حشوة) حوالين المحتوى جوه الكونتينر */
+    border-radius: 8px; /* حواف دائرية خفيفة للكونتينر عشان شكله يبقى أحلى */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* ظل خفيف للكونتينر عشان يبان بارز */
+}
+
+/* Header Styles */
+header {
+    text-align: center; /* النص اللي جوه الـ Header يكون في المنتصف */
+    margin-bottom: 30px; /* مسافة تحت الـ Header */
+    color: #2c3e50; /* لون أغمق لعنوان التطبيق */
+}
+
+header h1 {
+    font-size: 2.5em; /* حجم خط كبير للعنوان الرئيسي */
+    margin-bottom: 10px; /* مسافة تحت العنوان */
+}
+
+/* Task Input Section */
+.task-input-section {
+    margin-bottom: 30px; /* مسافة تحت قسم الإضافة */
+}
+
+/* هنا كان الخطأ! لازم نستهدف الـ form مباشرةً */
+.task-input-section form { /* <-- تأكدي إن السطر ده كده بالظبط */
+    display: flex; /* هنستخدم Flexbox هنا عشان نخلي صندوق الإدخال والزرار جنب بعض */
+    gap: 10px; /* مسافة بين صندوق الإدخال والزرار */
+}
+
+#taskInput { /* <-- ده التعديل المهم جداً: استهداف الـ ID الجديد للـ input */
+    flex-grow: 1; /* ده هيخلي صندوق الإدخال ياخد كل المساحة المتاحة المتبقية */
+    padding: 12px; /* مسافة داخلية لصندوق الإدخال */
+    border: 1px solid #ddd; /* حدود خفيفة لصندوق الإدخال */
+    border-radius: 5px; /* حواف دائرية خفيفة */
+    font-size: 1em; /* حجم الخط جوه الصندوق */
+    outline: none; /* نشيل الـ outline اللي بيظهر لما تدوس على الصندوق */
+}
+
+#taskInput::placeholder { /* <-- ده التعديل المهم: استهداف الـ ID الجديد للـ placeholder */
+    color: #aaa; /* لون النص اللي بيظهر جوه الصندوق (placeholder) */
+}
+
+#addTaskBtn { /* <-- ده التعديل المهم جداً: استهداف الـ ID الجديد للـ button */
+    padding: 12px 20px; /* مسافة داخلية للزرار */
+    background-color: #28a745; /* لون أخضر للزرار */
+    color: white; /* لون الخط أبيض */
+    border: none; /* نشيل الحدود من الزرار */
+    border-radius: 5px; /* حواف دائرية */
+    cursor: pointer; /* لما الماوس يجي عليه يبقى شكل إيد عشان يبين إنه زرار */
+    font-size: 1em; /* حجم الخط */
+    transition: background-color 0.3s ease; /* حركة بسيطة لما الماوس يجي على الزرار */
+}
+
+#addTaskBtn:hover { /* <-- استهداف الـ ID الجديد للـ button عند الـ hover */
+    background-color: #218838; /* لون أغمق للزرار لما الماوس يجي عليه */
+}
+
+/* Task List Section */
+.task-list-section h2 {
+    font-size: 1.8em; /* حجم خط عنوان "المهام الحالية" */
+    margin-bottom: 20px; /* مسافة تحته */
+    color: #2c3e50;
+    border-bottom: 1px solid #eee; /* خط خفيف تحت العنوان */
+    padding-bottom: 10px; /* مسافة بين العنوان والخط */
+}
+
+#task-list { /* الـ ID ده مش مستخدم في الـ HTML اللي بعتيه، الـ ID هو taskList */
+    list-style: none; /* نشيل النقط أو الأرقام الافتراضية بتاعة القائمة */
+    padding: 0; /* نشيل أي مسافات داخلية افتراضية من القائمة */
+    margin: 0; /* نشيل أي مسافات خارجية افتراضية من القائمة */
+}
+
+.task-item {
+    background-color: #f9f9f9; /* خلفية فاتحة لكل مهمة */
+    border: 1px solid #eee; /* حدود خفيفة للمهمة */
+    padding: 15px 20px; /* مسافة داخلية للمهمة */
+    margin-bottom: 10px; /* مسافة بين كل مهمة والتانية */
+    border-radius: 5px; /* حواف دائرية */
+    display: flex; /* هنستخدم Flexbox هنا عشان النص والأزرار يكونوا جنب بعض */
+    justify-content: space-between; /* نوزع المسافة بالتساوي بين النص والأزرار */
+    align-items: center; /* الأزرار والنص يكونوا في نفس الخط الأفقي */
+}
+
+.task-item.completed { /* ده الـ Style بتاع المهمة اللي هتكون "مكتملة" */
+    background-color: #e6ffe6; /* لون أخضر فاتح للمهام المكتملة */
+    border-color: #a3e6a3; /* حدود خضرا للمهام المكتملة */
+    opacity: 0.8; /* نقلل الشفافية شوية */
+}
+
+.task-item.completed .task-title {
+    text-decoration: line-through; /* نعمل خط على النص بتاع المهمة المكتملة */
+    color: #777; /* لون أفتح للنص */
+}
+
+.task-title {
+    flex-grow: 1; /* عنوان المهمة هياخد باقي المساحة المتاحة */
+    font-size: 1.1em;
+}
+
+.task-actions button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 5px; /* مسافة بين الأزرار */
+    transition: background-color 0.3s ease;
+}
+
+.complete-btn {
+    background-color: #007bff; /* لون أزرق لزرار "Complete" */
+    color: white;
+}
+
+.complete-btn:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn {
+    background-color: #dc3545; /* لون أحمر لزرار "Delete" */
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
