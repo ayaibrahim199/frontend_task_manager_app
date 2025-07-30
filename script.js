@@ -4,8 +4,7 @@ const addTaskBtn = document.getElementById('addTaskBtn'); // لازم الـ id 
 const taskList = document.getElementById('taskList');   // لازم الـ id بتاع القائمة يكون "taskList" (ده ul او div عندك في الـ HTML)
 
 // Base URL for your Backend API
-const API_BASE_URL = 'http://localhost:3000/api/tasks'; // ده العنوان بتاع الـ Backend بتاعك
-
+const API_BASE_URL = 'https://backend-task-manager-app.onrender.com/api/tasks';
 // --- (1) Function to fetch and display tasks (دالة بتجيب المهام من الـ Backend وتعرضها) ---
 async function fetchTasks() {
     try {
