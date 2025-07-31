@@ -1,112 +1,110 @@
-/* Global Styles & Reset */
 body {
-    font-family: Arial, sans-serif; /* نوع الخط: خط Arial أو أي خط sans-serif تاني */
-    margin: 0;                      /* نشيل أي مسافات خارجية افتراضية من Body */
-    padding: 0;                     /* نشيل أي مسافات داخلية افتراضية من Body */
-    background-color: #f4f7f6;      /* لون خلفية فاتح عشان التطبيق يبان عليه */
-    color: #333;                    /* لون الخط الأساسي */
-    line-height: 1.6;               /* مسافة بين السطور عشان القراءة تبقى مريحة */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
 }
 
 .container {
-    max-width: 600px; /* أقصى عرض للكونتينر بتاعنا، عشان ميكبرش أوي على الشاشات الكبيرة */
-    margin: 20px auto; /* مسافة 20px من فوق وتحت، و "auto" عشان يسنتِر الكونتينر في نص الشاشة أفقيًا */
-    background-color: #ffffff; /* خلفية بيضا للكونتينر بتاع التطبيق */
-    padding: 30px; /* مسافة داخلية (حشوة) حوالين المحتوى جوه الكونتينر */
-    border-radius: 8px; /* حواف دائرية خفيفة للكونتينر عشان شكله يبقى أحلى */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* ظل خفيف للكونتينر عشان يبان بارز */
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Header Styles */
 header {
-    text-align: center; /* النص اللي جوه الـ Header يكون في المنتصف */
-    margin-bottom: 30px; /* مسافة تحت الـ Header */
-    color: #2c3e50; /* لون أغمق لعنوان التطبيق */
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
 }
 
 header h1 {
-    font-size: 2.5em; /* حجم خط كبير للعنوان الرئيسي */
-    margin-bottom: 10px; /* مسافة تحت العنوان */
+    font-size: 2.5em;
+    margin-bottom: 10px;
 }
 
 /* Task Input Section */
 .task-input-section {
-    margin-bottom: 30px; /* مسافة تحت قسم الإضافة */
+    margin-bottom: 30px;
 }
 
-/* هنا كان الخطأ! لازم نستهدف الـ form مباشرةً */
-.task-input-section form { /* <-- تأكدي إن السطر ده كده بالظبط */
-    display: flex; /* هنستخدم Flexbox هنا عشان نخلي صندوق الإدخال والزرار جنب بعض */
-    gap: 10px; /* مسافة بين صندوق الإدخال والزرار */
+.task-input-section form {
+    display: flex;
+    gap: 10px;
 }
 
-#taskInput { /* <-- ده التعديل المهم جداً: استهداف الـ ID الجديد للـ input */
-    flex-grow: 1; /* ده هيخلي صندوق الإدخال ياخد كل المساحة المتاحة المتبقية */
-    padding: 12px; /* مسافة داخلية لصندوق الإدخال */
-    border: 1px solid #ddd; /* حدود خفيفة لصندوق الإدخال */
-    border-radius: 5px; /* حواف دائرية خفيفة */
-    font-size: 1em; /* حجم الخط جوه الصندوق */
-    outline: none; /* نشيل الـ outline اللي بيظهر لما تدوس على الصندوق */
+#taskInput {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    outline: none;
 }
 
-#taskInput::placeholder { /* <-- ده التعديل المهم: استهداف الـ ID الجديد للـ placeholder */
-    color: #aaa; /* لون النص اللي بيظهر جوه الصندوق (placeholder) */
+#taskInput::placeholder {
+    color: #aaa;
 }
 
-#addTaskBtn { /* <-- ده التعديل المهم جداً: استهداف الـ ID الجديد للـ button */
-    padding: 12px 20px; /* مسافة داخلية للزرار */
-    background-color: #28a745; /* لون أخضر للزرار */
-    color: white; /* لون الخط أبيض */
-    border: none; /* نشيل الحدود من الزرار */
-    border-radius: 5px; /* حواف دائرية */
-    cursor: pointer; /* لما الماوس يجي عليه يبقى شكل إيد عشان يبين إنه زرار */
-    font-size: 1em; /* حجم الخط */
-    transition: background-color 0.3s ease; /* حركة بسيطة لما الماوس يجي على الزرار */
+#addTaskBtn {
+    padding: 12px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
 }
 
-#addTaskBtn:hover { /* <-- استهداف الـ ID الجديد للـ button عند الـ hover */
-    background-color: #218838; /* لون أغمق للزرار لما الماوس يجي عليه */
+#addTaskBtn:hover {
+    background-color: #218838;
 }
 
 /* Task List Section */
 .task-list-section h2 {
-    font-size: 1.8em; /* حجم خط عنوان "المهام الحالية" */
-    margin-bottom: 20px; /* مسافة تحته */
+    font-size: 1.8em;
+    margin-bottom: 20px;
     color: #2c3e50;
-    border-bottom: 1px solid #eee; /* خط خفيف تحت العنوان */
-    padding-bottom: 10px; /* مسافة بين العنوان والخط */
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
 }
 
-#task-list { /* الـ ID ده مش مستخدم في الـ HTML اللي بعتيه، الـ ID هو taskList */
-    list-style: none; /* نشيل النقط أو الأرقام الافتراضية بتاعة القائمة */
-    padding: 0; /* نشيل أي مسافات داخلية افتراضية من القائمة */
-    margin: 0; /* نشيل أي مسافات خارجية افتراضية من القائمة */
+#taskList { /* تم تصحيح الـ ID هنا ليتوافق مع HTML: taskList */
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .task-item {
-    background-color: #f9f9f9; /* خلفية فاتحة لكل مهمة */
-    border: 1px solid #eee; /* حدود خفيفة للمهمة */
-    padding: 15px 20px; /* مسافة داخلية للمهمة */
-    margin-bottom: 10px; /* مسافة بين كل مهمة والتانية */
-    border-radius: 5px; /* حواف دائرية */
-    display: flex; /* هنستخدم Flexbox هنا عشان النص والأزرار يكونوا جنب بعض */
-    justify-content: space-between; /* نوزع المسافة بالتساوي بين النص والأزرار */
-    align-items: center; /* الأزرار والنص يكونوا في نفس الخط الأفقي */
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.task-item.completed { /* ده الـ Style بتاع المهمة اللي هتكون "مكتملة" */
-    background-color: #e6ffe6; /* لون أخضر فاتح للمهام المكتملة */
-    border-color: #a3e6a3; /* حدود خضرا للمهام المكتملة */
-    opacity: 0.8; /* نقلل الشفافية شوية */
+.task-item.completed {
+    background-color: #e6ffe6;
+    border-color: #a3e6a3;
+    opacity: 0.8;
 }
 
 .task-item.completed .task-title {
-    text-decoration: line-through; /* نعمل خط على النص بتاع المهمة المكتملة */
-    color: #777; /* لون أفتح للنص */
+    text-decoration: line-through;
+    color: #777;
 }
 
 .task-title {
-    flex-grow: 1; /* عنوان المهمة هياخد باقي المساحة المتاحة */
+    flex-grow: 1;
     font-size: 1.1em;
 }
 
@@ -116,12 +114,12 @@ header h1 {
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.9em;
-    margin-left: 5px; /* مسافة بين الأزرار */
+    margin-left: 5px;
     transition: background-color 0.3s ease;
 }
 
 .complete-btn {
-    background-color: #007bff; /* لون أزرق لزرار "Complete" */
+    background-color: #007bff;
     color: white;
 }
 
@@ -130,10 +128,83 @@ header h1 {
 }
 
 .delete-btn {
-    background-color: #dc3545; /* لون أحمر لزرار "Delete" */
+    background-color: #dc3545;
     color: white;
 }
 
 .delete-btn:hover {
     background-color: #c82333;
+}
+
+/* --- Responsive Design Media Queries --- */
+
+/* Media Query for screens smaller than 768px (common breakpoint for tablets/mobiles) */
+@media (max-width: 768px) {
+    .container {
+        max-width: 90%; /* On smaller screens, take up 90% of the width */
+        margin: 10px auto; /* Adjust margin for smaller screens */
+        padding: 15px; /* Adjust padding */
+    }
+
+    /* Adjust font sizes for smaller screens */
+    h1 {
+        font-size: 2em; /* Smaller heading for mobile */
+    }
+
+    input[type="text"] {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    /* Adjust task item layout for small screens */
+    .task-item {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: flex-start; /* Align items to the start */
+        padding: 10px 15px; /* Adjust padding */
+    }
+
+    .task-title {
+        margin-bottom: 10px; /* Add space between task text and buttons */
+    }
+
+    .task-actions {
+        width: 100%; /* Make buttons take full width */
+        display: flex; /* Use flexbox for buttons within actions */
+        justify-content: flex-start; /* Align buttons to the start */
+        gap: 5px; /* Space between buttons */
+    }
+
+    .task-actions button {
+        flex-grow: 1; /* Make buttons expand to fill available space */
+        margin-left: 0; /* Remove left margin if stacked */
+    }
+}
+
+/* Media Query for even smaller screens (e.g., typical mobile phones) */
+@media (max-width: 480px) {
+    .container {
+        max-width: 95%; /* Even more width on very small screens */
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .task-input-section form {
+        flex-direction: column; /* Stack input and button vertically */
+    }
+
+    #taskInput {
+        margin-bottom: 10px; /* Add space below input when stacked */
+    }
+
+    #addTaskBtn {
+        width: 100%; /* Make add button full width */
+    }
 }
