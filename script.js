@@ -2,10 +2,24 @@
 const taskInput = document.getElementById('taskInput'); // لازم الـ id بتاع الـ input يكون "taskInput"
 const addTaskBtn = document.getElementById('addTaskBtn'); // لازم الـ id بتاع زرار الإضافة يكون "addTaskBtn"
 const taskList = document.getElementById('taskList');   // لازم الـ id بتاع القائمة يكون "taskList" (ده ul او div عندك في الـ HTML)
+const alertMessageDiv = document.getElementById('alertMessage'); // استهداف عنصر الـ Alert الجديد من الـ HTML
 
 // Base URL for your Backend API
 const API_BASE_URL = 'https://backend-task-manager-app.onrender.com/api/tasks';
-// --- (1) Function to fetch and display tasks (دالة بتجيب المهام من الـ Backend وتعرضها) ---
+
+// دالة لعرض رسالة Bootstrap Alert
+function showAlert(message, type = 'danger') { // type يمكن أن تكون 'success', 'danger', 'info', 'warning'
+    alertMessageDiv.textContent = message;
+    alertMessageDiv.className = `alert alert-${type}`; // تغيير الكلاس للون ونوع الـ Alert
+    alertMessageDiv.classList.remove('d-none'); // إظهار الـ Alert
+
+    // إخفاء الـ Alert بعد 3 ثواني
+    setTimeout(() => {
+        alertMessageDiv.classList.add('d-none'); // إخفاء الـ Alert
+    }, 3000); // 3000 مللي ثانية = 3 ثواني
+}
+
+// دالة لجلب المهام من الـ API
 async function fetchTasks() {
     try {
         const response = await fetch(API_BASE_URL); // بتبعت GET request للـ Backend بتاعك
@@ -16,7 +30,7 @@ async function fetchTasks() {
         displayTasks(tasks); // بتعرض المهام في واجهة المستخدم
     } catch (error) {
         console.error('Error fetching tasks:', error);
-        alert('Failed to load tasks. Please try again later.');
+        showAlert('Failed to load tasks. The server might be waking up or there is a network issue. Please try again.', 'danger'); // استخدام الـ showAlert
     }
 }
 
@@ -25,13 +39,15 @@ function displayTasks(tasks) {
     taskList.innerHTML = ''; // بتفضي القائمة الموجودة عشان تعرض المهام الجديدة
 
     if (tasks.length === 0) {
-        taskList.innerHTML = '<p>No tasks yet. Add one!</p>';
+        // رسالة للـ Empty State باستخدام Bootstrap classes
+        taskList.innerHTML = '<li class="list-group-item text-center text-muted">No tasks yet. Add one!</li>';
         return;
     }
 
     tasks.forEach(task => {
         const li = document.createElement('li');
-        li.className = 'task-item'; // كلاس الـ Style الأساسي للمهمة
+        // هنا هنضيف كلاسات Bootstrap للـ List Group Items
+        li.className = 'task-item list-group-item d-flex justify-content-between align-items-center';
         li.setAttribute('data-id', task._id); // عشان نربط الـ ID بتاع المهمة بالـ HTML
 
         // لو المهمة مكتملة، نضيفلها كلاس "completed"
@@ -41,23 +57,25 @@ function displayTasks(tasks) {
 
         // نص المهمة
         const taskTextSpan = document.createElement('span');
-        taskTextSpan.className = 'task-title'; // كلاس للـ Styling (عشان اللون والخط)
+        taskTextSpan.className = 'task-title flex-grow-1'; // أضفنا flex-grow-1 لكلاس Bootstrap
         taskTextSpan.textContent = task.text;
 
         // قسم الأزرار (task-actions) اللي الـ CSS بتاعك مصمم ليها
         const taskActionsDiv = document.createElement('div');
-        taskActionsDiv.className = 'task-actions';
+        taskActionsDiv.className = 'task-actions d-flex'; // أضفنا d-flex لكلاس Bootstrap
 
         // زرار Complete/Undo
         const completeButton = document.createElement('button');
-        completeButton.className = 'complete-btn'; // كلاس للـ Styling
+        // استخدمنا كلاسات Bootstrap للأزرار
+        completeButton.className = `btn btn-sm ${task.completed ? 'btn-secondary' : 'btn-info'} me-2 complete-btn`;
         completeButton.textContent = task.completed ? 'Undo' : 'Complete'; // النص هيتغير حسب الحالة (مكتملة أو لأ)
         completeButton.addEventListener('click', () => toggleTaskCompleted(task._id, !task.completed));
 
         // زرار الحذف
         const deleteButton = document.createElement('button');
+        // استخدمنا كلاسات Bootstrap للأزرار
         deleteButton.textContent = 'Delete';
-        deleteButton.className = 'delete-btn'; // كلاس للـ Styling
+        deleteButton.className = 'btn btn-danger btn-sm delete-btn';
         deleteButton.addEventListener('click', () => deleteTask(task._id));
 
         // نضيف الأزرار للـ div بتاع task-actions
@@ -77,7 +95,7 @@ function displayTasks(tasks) {
 async function addTask() {
     const text = taskInput.value.trim(); // ناخد النص من صندوق الإدخال ونشيل المسافات الزايدة
     if (!text) { // لو النص فاضي، نظهر رسالة ونخرج
-        alert('Task cannot be empty!');
+        showAlert('Task cannot be empty!', 'warning'); // استخدام الـ showAlert
         return;
     }
 
@@ -90,25 +108,23 @@ async function addTask() {
             body: JSON.stringify({ text }) // نحول الـ JavaScript object { text: "..." } لـ JSON string عشان نبعته في الـ body
         });
 
-              // للتأكد، هنشوف الـ status Code بشكل صريح.
-              if (response.status === 201 || response.status === 200) { // لو الرد 201 (Created) أو 200 (OK)
-                // لو عايزة تقري الـ JSON بتاع الرد بس عشان تسجليها في الـ Console مثلاً:
-                // const newTask = await response.json();
-                // console.log('Task added successfully:', newTask);
-    
-                taskInput.value = ''; // نفضي صندوق الإدخال عشان اليوزر يكتب مهمة جديدة
-                fetchTasks(); // نعيد تحميل المهام من السيرفر عشان تظهر المهمة الجديدة اللي لسه ضايفينها
-            } else {
-                // لو الرد مش 200 أو 201، يبقى فيه مشكلة. نقرا الخطأ لو كان فيه JSON
-                const errorData = await response.json().catch(() => ({ message: `Server error with status: ${response.status}` }));
-                throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-            }
-    
-        } catch (error) {
-            console.error('Error adding task:', error); // نسجل الخطأ في الـ Console
-            alert(`Failed to add task: ${error.message}`); // نظهر رسالة خطأ للمستخدم (دي اللي هتظهر لو فيه مشكلة حقيقية)
+        // للتأكد، هنشوف الـ status Code بشكل صريح.
+        if (response.status === 201 || response.status === 200) { // لو الرد 201 (Created) أو 200 (OK)
+            taskInput.value = ''; // نفضي صندوق الإدخال عشان اليوزر يكتب مهمة جديدة
+            await fetchTasks(); // نعيد تحميل المهام من السيرفر عشان تظهر المهمة الجديدة اللي لسه ضايفينها
+            showAlert('Task added successfully!', 'success'); // رسالة نجاح
+        } else {
+            // لو الرد مش 200 أو 201، يبقى فيه مشكلة. نقرا الخطأ لو كان فيه JSON
+            const errorData = await response.json().catch(() => ({ message: `Server error with status: ${response.status}` }));
+            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
         }
+
+    } catch (error) {
+        console.error('Error adding task:', error); // نسجل الخطأ في الـ Console
+        showAlert(`Failed to add task: ${error.message}. The server might be waking up or there is a network issue. Please try again.`, 'danger'); // استخدام الـ showAlert
     }
+}
+
 // --- (3) Function to toggle task completion status (دالة لتغيير حالة المهمة بين مكتملة وغير مكتملة) ---
 async function toggleTaskCompleted(id, completedStatus) {
     try {
@@ -121,20 +137,24 @@ async function toggleTaskCompleted(id, completedStatus) {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
+            const errorData = await response.json().catch(() => ({ message: `Server error with status: ${response.status}` }));
             throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
         }
 
-        fetchTasks(); // نعيد تحميل المهام عشان التغيير في حالة المهمة يظهر على طول
+        await fetchTasks(); // نعيد تحميل المهام عشان التغيير في حالة المهمة يظهر على طول
+        showAlert('Task status updated successfully!', 'info'); // رسالة تحديث حالة
     } catch (error) {
         console.error('Error updating task:', error);
-        alert(`Failed to update task: ${error.message}`);
+        showAlert(`Failed to update task: ${error.message}. Please try again.`, 'danger'); // استخدام الـ showAlert
     }
 }
 
 // --- (4) Function to delete a task (دالة لحذف مهمة) ---
 async function deleteTask(id) {
-    if (!confirm('Are you sure you want to delete this task?')) { // نسأل المستخدم يتأكد قبل الحذف
+    // استبدلنا الـ confirm() بـ showAlert مؤقتاً
+    // ممكن في المستقبل نستخدم Bootstrap Modal لتأكيد الحذف بشكل أفضل
+    const confirmDelete = window.confirm('Are you sure you want to delete this task?');
+    if (!confirmDelete) {
         return;
     }
 
@@ -144,25 +164,24 @@ async function deleteTask(id) {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
+            const errorData = await response.json().catch(() => ({ message: `Server error with status: ${response.status}` }));
             throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
         }
 
-        fetchTasks(); // نعيد تحميل المهام عشان المهمة المحذوفة تختفي من القائمة
+        await fetchTasks(); // نعيد تحميل المهام عشان المهمة المحذوفة تختفي من القائمة
+        showAlert('Task deleted successfully!', 'success'); // رسالة حذف
     } catch (error) {
         console.error('Error deleting task:', error);
-        alert(`Failed to delete task: ${error.message}`);
+        showAlert(`Failed to delete task: ${error.message}. Please try again.`, 'danger'); // استخدام الـ showAlert
     }
 }
 
 // --- (5) Event Listeners (ربط الأزرار والأحداث بالدوال) ---
-addTaskBtn.addEventListener('click', addTask); // لما ندوس على زرار "Add Task"، ننادي دالة addTask
-
-// عشان نضيف المهمة بالـ Enter كمان لما اليوزر يكتب في صندوق الإدخال ويدوس Enter
-taskInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        addTask();
-    }
+// بدل ما نربط الزرار بـ addTask مباشرة، نربطه بـ event listener على الـ form
+// عشان نقدر نمنع الـ default behavior بتاع الـ form (إعادة تحميل الصفحة)
+document.getElementById('taskForm').addEventListener('submit', (e) => {
+    e.preventDefault(); // منع إعادة تحميل الصفحة
+    addTask();
 });
 
 // Initial load of tasks when the page loads (أول ما الصفحة تحمل، نجيب المهام من الـ Backend ونعرضها)
