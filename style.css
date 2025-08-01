@@ -1,51 +1,96 @@
-body {
-    background-color: #f0f2f5;
-    font-family: 'Poppins', sans-serif;
-}
+/* استيراد خط من Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-.landing-container {
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5; /* لون خلفية خفيف */
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f0f2f5;
+    min-height: 100vh;
+    margin: 0;
 }
 
-.card {
-    background-color: #ffffff;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 50px;
+.container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px; /* لإضافة حواف دائرية للصندوق */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* لإضافة ظل احترافي */
+    max-width: 800px;
     width: 100%;
-    max-width: 400px;
 }
 
 h1 {
-    color: #333;
-    font-weight: 600;
+    font-weight: 700;
+    color: #007bff; /* لون أزرق جذاب */
+    text-align: center;
+    margin-bottom: 1.5rem;
 }
 
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    font-weight: 600;
-    letter-spacing: 1px;
+#alertMessage {
+    text-align: center;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #004a9e;
+#taskForm {
+    margin-bottom: 2rem;
 }
 
-.btn-outline-secondary {
-    border-color: #6c757d;
-    color: #6c757d;
-    font-weight: 600;
-    letter-spacing: 1px;
+#taskInput {
+    border-radius: 20px;
+    padding-left: 1.5rem;
 }
 
-.btn-outline-secondary:hover {
-    background-color: #6c757d;
-    color: #fff;
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    border-radius: 20px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+#taskList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#taskList .list-group-item {
+    font-size: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+#taskList .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+#taskList .text-decoration-line-through {
+    color: #888;
+}
+
+.complete-btn {
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+
+.delete-btn {
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+
+#logoutBtn {
+    display: block;
+    width: 100%;
+    margin-top: 2rem;
+    border-radius: 20px;
+}
+
+/* تعديل التصميم على الشاشات الصغيرة */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
 }

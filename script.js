@@ -1,166 +1,177 @@
-// 1. Get DOM Elements
-const taskInput = document.getElementById('taskInput');
-const addTaskBtn = document.getElementById('addTaskBtn');
-const taskList = document.getElementById('taskList');
-const alertMessageDiv = document.getElementById('alertMessage');
+// API Base URL (Update this with your Render backend URL)
+const API_BASE_URL = 'https://backend-task-manager-app.onrender.com/api';
 
-// Base URL for your Backend API
-const API_BASE_URL = 'https://backend-task-manager-app.onrender.com/api/tasks';
-// دالة لعرض رسالة Bootstrap Alert
-function showAlert(message, type = 'danger') {
-    alertMessageDiv.textContent = message;
-    alertMessageDiv.className = `alert alert-${type}`;
-    alertMessageDiv.classList.remove('d-none');
-    setTimeout(() => {
-        alertMessageDiv.classList.add('d-none');
-    }, 3000);
+// DOM Elements
+const taskForm = document.getElementById('taskForm');
+const taskInput = document.getElementById('taskInput');
+const taskList = document.getElementById('taskList');
+const logoutBtn = document.getElementById('logoutBtn');
+const alertMessage = document.getElementById('alertMessage');
+
+// Event Listeners
+if (taskForm) {
+    taskForm.addEventListener('submit', addTask);
+}
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', logout);
+}
+if (taskList) {
+    taskList.addEventListener('click', handleTaskActions);
 }
 
-// Function to handle logout
+// Check for token and redirect if not present
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (!token && window.location.pathname.includes('tasks.html')) {
+        window.location.href = 'login.html';
+    }
+    if (token && window.location.pathname.includes('tasks.html')) {
+        fetchTasks();
+    }
+});
+
+// Show alert message
+function showAlert(message, type) {
+    alertMessage.textContent = message;
+    alertMessage.className = `alert alert-${type}`;
+    alertMessage.classList.remove('d-none');
+    setTimeout(() => {
+        alertMessage.classList.add('d-none');
+    }, 5000);
+}
+
+// Handle task actions (complete, delete)
+async function handleTaskActions(e) {
+    const target = e.target;
+    if (target.classList.contains('delete-btn')) {
+        const taskId = target.dataset.id;
+        await deleteTask(taskId);
+    } else if (target.classList.contains('complete-btn')) {
+        const taskId = target.dataset.id;
+        await toggleTaskComplete(taskId);
+    }
+}
+
+// Logout user
 function logout() {
     localStorage.removeItem('token');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
 
-// Function to display tasks in the UI
-function renderTasks(tasks) {
-    taskList.innerHTML = '';
-    if (tasks.length === 0) {
-        taskList.innerHTML = '<li class="list-group-item text-center text-muted">No tasks yet. Add one!</li>';
-        return;
-    }
-
-    tasks.forEach(task => {
-        const li = document.createElement('li');
-        li.className = 'task-item list-group-item d-flex justify-content-between align-items-center';
-        li.setAttribute('data-id', task._id);
-
-        if (task.completed) {
-            li.classList.add('completed');
-        }
-
-        const taskTextSpan = document.createElement('span');
-        taskTextSpan.className = 'task-title flex-grow-1';
-        taskTextSpan.textContent = task.text;
-
-        const taskActionsDiv = document.createElement('div');
-        taskActionsDiv.className = 'task-actions d-flex';
-
-        const completeButton = document.createElement('button');
-        completeButton.className = `btn btn-sm ${task.completed ? 'btn-secondary' : 'btn-info'} me-2 complete-btn`;
-        completeButton.textContent = task.completed ? 'Undo' : 'Complete';
-        completeButton.addEventListener('click', () => toggleTaskCompleted(task._id, !task.completed));
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.className = 'btn btn-danger btn-sm delete-btn';
-        deleteButton.addEventListener('click', () => deleteTask(task._id));
-
-        taskActionsDiv.appendChild(completeButton);
-        taskActionsDiv.appendChild(deleteButton);
-        li.appendChild(taskTextSpan);
-        li.appendChild(taskActionsDiv);
-        taskList.appendChild(li);
-    });
-}
-
-// Fetch tasks from the backend (Corrected)
+// Fetch all tasks
 async function fetchTasks() {
     const token = localStorage.getItem('token');
-    if (!token) {
-        showAlert('You are not logged in. Redirecting to login page.', 'warning');
-        setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 2000);
-        return;
-    }
+    if (!token) return;
 
     try {
-        const response = await fetch(API_BASE_URL, {
+        const response = await fetch(`${API_BASE_URL}/tasks`, {
+            method: 'GET',
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         });
-
+        if (response.status === 401) {
+            logout();
+            return;
+        }
         if (!response.ok) {
-            if (response.status === 401) {
-                showAlert('Session expired or not logged in. Please log in again.', 'warning');
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 2000);
-            }
-            throw new Error('Failed to load tasks.');
+            throw new Error('Failed to fetch tasks');
         }
         const tasks = await response.json();
         renderTasks(tasks);
     } catch (error) {
         console.error('Error fetching tasks:', error);
-        showAlert('Failed to load tasks. Please log in again.', 'danger');
+        showAlert('Failed to load tasks. Please try again.', 'danger');
     }
 }
 
-// Add a new task (Corrected)
+// Render tasks to the DOM
+function renderTasks(tasks) {
+    taskList.innerHTML = '';
+    if (tasks.length === 0) {
+        taskList.innerHTML = '<li class="list-group-item text-center">No tasks yet. Add one!</li>';
+    }
+    tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = `list-group-item d-flex justify-content-between align-items-center ${task.completed ? 'text-decoration-line-through text-muted' : ''}`;
+        li.innerHTML = `
+            <span>${task.description}</span>
+            <div>
+                <button class="btn btn-sm ${task.completed ? 'btn-warning' : 'btn-success'} complete-btn me-2" data-id="${task._id}">
+                    ${task.completed ? 'Undo' : 'Complete'}
+                </button>
+                <button class="btn btn-sm btn-danger delete-btn" data-id="${task._id}">Delete</button>
+            </div>
+        `;
+        taskList.appendChild(li);
+    });
+}
+
+// Add a new task
 async function addTask(e) {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    const text = taskInput.value;
-    if (!text) {
-        showAlert('Task text is required!', 'warning');
+    const description = taskInput.value.trim();
+    if (!description) {
+        showAlert('Task description is required!', 'warning');
         return;
     }
 
     try {
-        const response = await fetch(API_BASE_URL, {
+        const response = await fetch(`${API_BASE_URL}/tasks`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ text })
+            body: JSON.stringify({ description })
         });
 
         if (!response.ok) {
-            throw new Error('Failed to add task.');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to add task');
         }
         taskInput.value = '';
         fetchTasks();
     } catch (error) {
         console.error('Error adding task:', error);
-        showAlert('Failed to add task. Please try again.', 'danger');
+        showAlert(`Failed to add task: ${error.message}`, 'danger');
     }
 }
 
-// Toggle a task's completion status (Corrected)
-async function toggleTaskCompleted(id, completed) {
+// Toggle task completion status
+async function toggleTaskComplete(taskId) {
     const token = localStorage.getItem('token');
+    const taskItem = document.querySelector(`[data-id="${taskId}"]`).closest('li');
+    const isCompleted = !taskItem.classList.contains('text-decoration-line-through');
+
     try {
-        const response = await fetch(`${API_BASE_URL}/${id}`, {
-            method: 'PUT',
+        const response = await fetch(`${API_BASE_URL}/tasks/${taskId}/complete`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ completed: completed })
+            body: JSON.stringify({ completed: isCompleted })
         });
 
         if (!response.ok) {
-            throw new Error('Failed to update task.');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to update task');
         }
         fetchTasks();
     } catch (error) {
         console.error('Error updating task:', error);
-        showAlert('Failed to update task. Please try again.', 'danger');
+        showAlert(`Failed to update task: ${error.message}`, 'danger');
     }
 }
 
-// Delete a task (Corrected)
-async function deleteTask(id) {
-    if (!confirm('Are you sure you want to delete this task?')) {
-        return;
-    }
+// Delete a task
+async function deleteTask(taskId) {
     const token = localStorage.getItem('token');
     try {
-        const response = await fetch(`${API_BASE_URL}/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -168,22 +179,12 @@ async function deleteTask(id) {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to delete task.');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to delete task');
         }
         fetchTasks();
     } catch (error) {
         console.error('Error deleting task:', error);
-        showAlert('Failed to delete task. Please try again.', 'danger');
+        showAlert(`Failed to delete task: ${error.message}`, 'danger');
     }
 }
-
-// Event Listeners for the form and logout button
-document.getElementById('taskForm').addEventListener('submit', addTask);
-// You'll need to add a logout button to your index.html with id="logoutBtn"
-const logoutBtn = document.getElementById('logoutBtn');
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', logout);
-}
-
-// Initial load of tasks when the page loads
-fetchTasks();
