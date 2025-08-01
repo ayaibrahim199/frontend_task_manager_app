@@ -1,8 +1,8 @@
-/* استيراد خط من Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/* استيراد خطوط جذابة من Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;600&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #f0f2f5; /* لون خلفية خفيف */
     color: #333;
     display: flex;
@@ -12,18 +12,67 @@ body {
     margin: 0;
 }
 
-.container {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 10px; /* لإضافة حواف دائرية للصندوق */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* لإضافة ظل احترافي */
-    max-width: 800px;
+/* تصميم صفحة الهبوط (index.html) */
+.landing-container {
+    max-width: 450px;
     width: 100%;
+    padding: 2rem;
 }
 
-h1 {
+.card {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 15px; /* حواف أكثر دائرية */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* ظل أعمق وأكثر احترافية */
+    border: none;
+    margin-bottom: 2rem;
+}
+
+.landing-container h1 {
+    font-family: 'Roboto', sans-serif;
     font-weight: 700;
-    color: #007bff; /* لون أزرق جذاب */
+    font-size: 2.5rem;
+    color: #007bff;
+}
+
+.landing-container p {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.btn-primary,
+.btn-outline-secondary {
+    font-weight: 600;
+    border-radius: 30px; /* أزرار دائرية تماماً */
+    padding: 0.75rem 1.5rem;
+    text-transform: uppercase;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-outline-secondary {
+    color: #007bff;
+    border-color: #007bff;
+}
+
+/* تصميم صفحة المهام (tasks.html) */
+.tasks-container {
+    max-width: 800px;
+    width: 100%;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.tasks-container h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #007bff;
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -32,19 +81,15 @@ h1 {
     text-align: center;
 }
 
-#taskForm {
-    margin-bottom: 2rem;
-}
-
 #taskInput {
-    border-radius: 20px;
+    border-radius: 30px;
     padding-left: 1.5rem;
 }
 
 .btn-success {
     background-color: #28a745;
     border-color: #28a745;
-    border-radius: 20px;
+    border-radius: 30px;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 }
@@ -71,26 +116,16 @@ h1 {
     color: #888;
 }
 
-.complete-btn {
-    border-radius: 15px;
-    font-size: 0.8rem;
-}
-
+.complete-btn,
 .delete-btn {
-    border-radius: 15px;
+    border-radius: 20px;
     font-size: 0.8rem;
+    font-weight: 600;
 }
 
 #logoutBtn {
     display: block;
     width: 100%;
     margin-top: 2rem;
-    border-radius: 20px;
-}
-
-/* تعديل التصميم على الشاشات الصغيرة */
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
+    border-radius: 30px;
 }
