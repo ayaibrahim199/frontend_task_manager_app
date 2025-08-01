@@ -78,7 +78,7 @@ async function handleLogin(e) {
             const data = await response.json();
             localStorage.setItem('token', data.token);
             showAlert('Login successful! Redirecting...', 'success');
-            window.location.href = 'index.html';
+            window.location.href = 'tasks.html';
         } else {
             const errorText = await response.text();
             throw new Error(errorText || `Error with status: ${response.status}`);
