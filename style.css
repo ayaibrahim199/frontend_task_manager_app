@@ -1,71 +1,51 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f7f6;
-    color: #333;
-    line-height: 1.6;
+    background-color: #f0f2f5;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* ممكن تحطي أي ستايلات مخصصة هنا لو عايزة تغيري حاجات Bootstrap الافتراضية */
-
-/* Task Item Styles (نعدلها عشان تبقى زي Bootstrap list-group-item) */
-.task-item {
-    background-color: #ffffff; /* ممكن نخليه أبيض أو شفاف */
-    border: 1px solid #dee2e6; /* حدود Bootstrap الافتراضية */
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+.landing-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    /* الـ flex-direction: column; في الـ media query القديم مش محتاجينه خلاص */
+    height: 100vh;
+    background-color: #f0f2f5;
 }
 
-.task-item.completed {
-    background-color: #e6ffe6;
-    border-color: #a3e6a3;
-    opacity: 0.8;
-}
-
-.task-item.completed .task-title {
-    text-decoration: line-through;
-    color: #777;
-}
-
-.task-title {
-    flex-grow: 1;
-    font-size: 1.1em;
-}
-
-.task-actions button {
-    padding: 8px 12px;
+.card {
+    background-color: #ffffff;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
-    margin-left: 5px;
-    transition: background-color 0.3s ease;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    width: 100%;
+    max-width: 400px;
 }
 
-.complete-btn {
+h1 {
+    color: #333;
+    font-weight: 600;
+}
+
+.btn-primary {
     background-color: #007bff;
-    color: white;
+    border-color: #007bff;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
-.complete-btn:hover {
+.btn-primary:hover {
     background-color: #0056b3;
+    border-color: #004a9e;
 }
 
-.delete-btn {
-    background-color: #dc3545;
-    color: white;
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
-.delete-btn:hover {
-    background-color: #c82333;
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
 }
-
-/* الـ Media Queries اللي عملناها قبل كده ممكن تتشال لو Bootstrap غطاها تماما */
-/* @media (max-width: 768px) { ... } */
-/* @media (max-width: 480px) { ... } */
