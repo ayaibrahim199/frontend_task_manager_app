@@ -5,8 +5,7 @@ const taskList = document.getElementById('taskList');
 const alertMessageDiv = document.getElementById('alertMessage');
 
 // Base URL for your Backend API
-const API_BASE_URL = 'http://localhost:3001/api/tasks';
-
+const API_BASE_URL = 'https://backend-task-manager-app.onrender.com/api/tasks';
 // دالة لعرض رسالة Bootstrap Alert
 function showAlert(message, type = 'danger') {
     alertMessageDiv.textContent = message;

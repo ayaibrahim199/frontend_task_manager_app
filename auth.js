@@ -6,7 +6,7 @@ const passwordInput = document.getElementById('password');
 const alertMessageDiv = document.getElementById('alertMessage');
 
 // Base URL for the Backend Authentication API
-const API_BASE_URL = 'http://localhost:3001/api/auth';
+const API_BASE_URL = 'https://backend-task-manager-app.onrender.com/api/auth';
 
 // Function to show a Bootstrap Alert
 function showAlert(message, type = 'danger') {
