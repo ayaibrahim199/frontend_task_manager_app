@@ -18,7 +18,7 @@ function showAlert(message, type = 'danger') {
     }, 3000);
 }
 
-// Function to handle user registration
+// Function to handle user registration (Corrected)
 async function handleRegister(e) {
     e.preventDefault(); // Prevent page reload
 
@@ -39,14 +39,12 @@ async function handleRegister(e) {
             body: JSON.stringify({ username, password })
         });
 
-        const data = await response.json();
-
         if (response.ok) {
             showAlert('Registration successful! You can now log in.', 'success');
-            // NEW: Redirect to login page
             window.location.href = 'login.html';
         } else {
-            throw new Error(data.message || `Error with status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(errorText || `Error with status: ${response.status}`);
         }
 
     } catch (error) {
@@ -54,7 +52,8 @@ async function handleRegister(e) {
         showAlert(error.message, 'danger');
     }
 }
-// NEW: Function to handle user login
+
+// Function to handle user login (Corrected)
 async function handleLogin(e) {
     e.preventDefault(); // Prevent page reload
 
@@ -75,16 +74,14 @@ async function handleLogin(e) {
             body: JSON.stringify({ username, password })
         });
 
-        const data = await response.json();
-
         if (response.ok) {
-            // Here we store the token
+            const data = await response.json();
             localStorage.setItem('token', data.token);
             showAlert('Login successful! Redirecting...', 'success');
-            // Redirect to the main tasks page
             window.location.href = 'index.html';
         } else {
-            throw new Error(data.message || `Error with status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(errorText || `Error with status: ${response.status}`);
         }
 
     } catch (error) {
